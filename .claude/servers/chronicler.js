@@ -24,12 +24,6 @@ function gatherKnowledge(args) {
         fs.mkdirSync(knowledgeDir, { recursive: true });
     }
     
-    // Create category directory if it doesn't exist
-    const categoryDir = path.join(knowledgeDir, category.toLowerCase().replace(/\s+/g, '-'));
-    if (!fs.existsSync(categoryDir)) {
-        fs.mkdirSync(categoryDir, { recursive: true });
-    }
-    
     const sessionFile = path.join(knowledgeDir, 'session.md');
     
     // Create session file header if it doesn't exist
