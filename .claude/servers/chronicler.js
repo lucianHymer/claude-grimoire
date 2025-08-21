@@ -1,0 +1,145 @@
+#!/usr/bin/env node
+const readline = require('readline');
+const fs = require('fs');
+const path = require('path');
+
+// Helper to send JSON-RPC responses
+function respond(id, result) {
+    const response = { jsonrpc: '2.0', id, result };
+    console.log(JSON.stringify(response));
+}
+
+function respondError(id, code, message) {
+    const response = { jsonrpc: '2.0', id, error: { code, message } };
+    console.log(JSON.stringify(response));
+}
+
+// The actual gathering function
+function gatherKnowledge(args) {
+    const { category, topic, details, files } = args;
+    
+    // Ensure knowledge directory exists
+    const knowledgeDir = path.join(process.cwd(), '.knowledge');
+    if (!fs.existsSync(knowledgeDir)) {
+        fs.mkdirSync(knowledgeDir, { recursive: true });
+    }
+    
+    // Create category directory if it doesn't exist
+    const categoryDir = path.join(knowledgeDir, category.toLowerCase().replace(/\s+/g, '-'));
+    if (!fs.existsSync(categoryDir)) {
+        fs.mkdirSync(categoryDir, { recursive: true });
+    }
+    
+    const sessionFile = path.join(knowledgeDir, 'session.md');
+    
+    // Create session file header if it doesn't exist
+    if (!fs.existsSync(sessionFile)) {
+        const date = new Date().toISOString().split('T')[0];
+        fs.writeFileSync(sessionFile, `# Knowledge Capture Session - ${date}\n\n`);
+    }
+    
+    // Format the entry
+    const time = new Date().toTimeString().slice(0, 5);
+    let entry = `### [${time}] [${category}] ${topic}\n`;
+    entry += `**Details**: ${details}\n`;
+    if (files) {
+        entry += `**Files**: ${files}\n`;
+    }
+    entry += `---\n\n`;
+    
+    // Atomic append
+    fs.appendFileSync(sessionFile, entry);
+    
+    return `✓ Gathered to .knowledge/session.md: [${category}] ${topic}`;
+}
+
+// Set up stdin reader for JSON-RPC
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
+
+// Handle incoming JSON-RPC requests
+rl.on('line', (line) => {
+    try {
+        const request = JSON.parse(line);
+        
+        if (request.method === 'initialize') {
+            respond(request.id, {
+                protocolVersion: '2024-11-05',
+                serverInfo: { name: 'chronicler', version: '1.0.0' },
+                capabilities: {
+                    tools: {}
+                }
+            });
+        } else if (request.method === 'tools/list') {
+            respond(request.id, {
+                tools: [{
+                    name: 'gather_knowledge',
+                    description: `PROACTIVELY capture ANY learned information about the project. Use this tool IMMEDIATELY when you:
+- Understand how any part of the system works
+- Discover project structure, architecture, or design patterns
+- Find dependencies, libraries, frameworks, or external services
+- Learn configuration details or environment variables
+- Encounter surprising behaviors or non-obvious aspects
+- Identify workflows, build processes, or development procedures
+- Discover API endpoints, database schemas, or data flows
+- Find coding conventions, style guides, or project standards
+- Learn about testing approaches, CI/CD, or deployment
+
+This tool builds automatic documentation by gathering ALL discoveries. Use descriptive categories like: architecture, api, database, pattern, dependency, workflow, config, gotcha, convention, testing, security, deployment, etc.`,
+                    inputSchema: {
+                        type: 'object',
+                        properties: {
+                            category: {
+                                type: 'string',
+                                description: 'Category name for organizing this knowledge. Use descriptive categories like: architecture, api, database, pattern, dependency, workflow, config, gotcha, convention, testing, security, deployment, frontend, backend, auth, etc. Any relevant category name is acceptable.',
+                                examples: ['architecture', 'api', 'database', 'pattern', 'dependency', 'workflow', 'config', 'gotcha', 'testing', 'security', 'auth', 'frontend', 'backend']
+                            },
+                            topic: {
+                                type: 'string',
+                                description: 'Brief, descriptive title for what you learned (e.g., "Redis caching strategy", "JWT authentication flow", "MongoDB connection pooling")'
+                            },
+                            details: {
+                                type: 'string',
+                                description: 'Complete details of what you discovered. Include specifics, configuration values, important notes, and any context that would help understand this knowledge later.'
+                            },
+                            files: {
+                                type: 'string',
+                                description: 'Comma-separated list of related file paths where this knowledge was discovered (optional but recommended)',
+                                examples: ['app.js', 'src/auth/jwt.js, src/middleware/auth.js', 'config/database.yml']
+                            }
+                        },
+                        required: ['category', 'topic', 'details']
+                    }
+                }]
+            });
+        } else if (request.method === 'tools/call') {
+            if (request.params.name === 'gather_knowledge') {
+                try {
+                    const result = gatherKnowledge(request.params.arguments);
+                    respond(request.id, {
+                        content: [{ type: 'text', text: result }]
+                    });
+                } catch (error) {
+                    respondError(request.id, -32603, `Gathering failed: ${error.message}`);
+                }
+            } else {
+                respondError(request.id, -32601, `Unknown tool: ${request.params.name}`);
+            }
+        } else if (request.method === 'shutdown') {
+            respond(request.id, {});
+            process.exit(0);
+        } else {
+            respondError(request.id, -32601, `Method not found: ${request.method}`);
+        }
+    } catch (error) {
+        // Invalid JSON or other parsing errors
+        console.error('Error processing request:', error);
+    }
+});
+
+// Handle clean shutdown
+process.on('SIGTERM', () => process.exit(0));
+process.on('SIGINT', () => process.exit(0));
