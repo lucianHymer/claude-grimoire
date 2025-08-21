@@ -34,21 +34,21 @@ Use gather_knowledge with these parameters:
 <!-- BEGIN CHRONICLER: project-architecture -->
 ## 🏗️ Project Architecture
 
-### Package-based Organization
-The project uses a modular `packages/` directory structure where each system/tool is self-contained:
+### Incantation-based Organization
+The project uses a modular `incantations/` directory structure where each magical system/tool is self-contained:
 - **agents/** - Agent markdown files for specialized tasks
 - **servers/** - MCP server implementations
 - **append-to-* files** - Configuration fragments to append during installation
-- **README.md** - Package-specific documentation
+- **README.md** - Incantation-specific documentation
 
-This structure enables portable, independently versioned systems that can be easily distributed and installed.
+This structure enables portable, independently versioned magical systems that can be summoned and installed.
 <!-- END CHRONICLER: project-architecture -->
 
 <!-- BEGIN CHRONICLER: key-patterns -->
 ## 🎯 Key Patterns
 
 ### Append File Naming Convention
-Package configuration files use `append-to-[filename]` naming:
+Incantation configuration files use `append-to-[filename]` naming:
 - `append-to-CLAUDE.md` - Documentation sections to add
 - `append-to-settings.local.json` - Settings configuration
 - `append-to-gitignore` - Gitignore entries
@@ -81,7 +81,13 @@ The system captures knowledge proactively during exploration and organizes it in
 <!-- BEGIN CHRONICLER: development-workflows -->
 ## 🔄 Development Workflows
 
-_Workflows will be auto-populated here as they are discovered_
+### Summoning Incantations
+Install magical systems using the `summon [incantation-name]` command:
+- **Example**: `summon chronicler` installs the chronicler documentation system
+- **Process**: Runs install script, appends configuration fragments, enables MCP servers
+- **Theme**: Aligns with grimoire's concept of summoning arcane entities
+
+This thematic workflow makes the development experience more engaging while maintaining clear functionality.
 <!-- END CHRONICLER: development-workflows -->
 
 <!-- BEGIN CHRONICLER: recent-discoveries -->

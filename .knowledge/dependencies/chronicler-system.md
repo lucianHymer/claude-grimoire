@@ -31,7 +31,7 @@ Enables the MCP server via `settings.local.json` configuration.
 5. Session file is cleared for the next session
 
 ## Files
-- `packages/chronicler/servers/chronicler.js`
-- `packages/chronicler/agents/chronicler-quicken.md`
-- `packages/chronicler/append-to-CLAUDE.md`
-- `packages/chronicler/append-to-settings.local.json`
+- `incantations/chronicler/servers/chronicler.js`
+- `incantations/chronicler/agents/chronicler-quicken.md`
+- `incantations/chronicler/append-to-CLAUDE.md`
+- `incantations/chronicler/append-to-settings.local.json`

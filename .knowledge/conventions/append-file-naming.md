@@ -1,7 +1,7 @@
-# Package Append File Naming Convention
+# Incantation Append File Naming Convention
 
 ## Convention
-Package configuration files use the naming pattern: `append-to-[filename]`
+Incantation configuration files use the naming pattern: `append-to-[filename]`
 
 ## Purpose
 - Clearly indicates files are fragments to be appended during installation
@@ -16,7 +16,7 @@ Package configuration files use the naming pattern: `append-to-[filename]`
 ## Benefits
 - IDE/editor syntax highlighting works correctly
 - Clear purpose from filename alone
-- Consistent pattern across all packages
+- Consistent pattern across all incantations
 
 ## Implementation
-Used throughout the packages/ directory structure for all configuration fragments.
+Used throughout the incantations/ directory structure for all configuration fragments.

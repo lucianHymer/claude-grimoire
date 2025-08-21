@@ -13,6 +13,7 @@ This file provides an index to all documented knowledge about the project.
 
 ## Conventions
 - [Append File Naming](./conventions/append-file-naming.md) - Package configuration file naming pattern *(2025-08-21)*
+- [Naming Conventions](./conventions/naming.md) - Incantations directory and thematic naming *(2025-08-21)*
 
 ## Configuration
 - [Gitignore Requirements](./config/gitignore-requirements.md) - Version control exclusions needed *(2025-08-21)*
@@ -21,4 +22,4 @@ This file provides an index to all documented knowledge about the project.
 - [2025-08-21: Agent Checklist Compliance](./gotchas/2025-08-21-agent-checklist-compliance.md) - Agents may skip checklist items without strong imperatives
 
 ## Workflows
-*(No workflows documented yet)*
+- [Installation Workflows](./workflows/installation.md) - Summoning incantations via command-line *(2025-08-21)*
