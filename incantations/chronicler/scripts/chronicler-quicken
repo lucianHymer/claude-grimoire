@@ -4,7 +4,7 @@ set -o pipefail  # Ensure pipe returns claude's exit status, not the while loop'
 # Manual chronicler quickening script
 # Run this after commits to process gathered knowledge into documentation
 
-if [ ! -f .knowledge/session.md ] || [ ! -s .knowledge/session.md ]; then
+if [ ! -f .claude/knowledge/session.md ] || [ ! -s .claude/knowledge/session.md ]; then
   echo "📜 No knowledge to process (session.md is empty or missing)"
   exit 0
 fi
@@ -15,15 +15,15 @@ echo "⚠️  Note: This may take a few minutes for complex documentation update
 claude \
 --verbose \
 --allowedTools Read,Write,MultiEdit,Glob,Grep,LS,Bash,Git \
---append-system-prompt "You are the Chronicler, keeper of project knowledge. You quicken raw gathered knowledge into permanent documentation. CRITICAL: Use MultiEdit for ALL CLAUDE.md updates. Never modify content outside CHRONICLER markers. Organize knowledge by category. Write concise technical documentation. The project structure is: .knowledge/session.md (raw captures), .knowledge/{category}/ (organized knowledge), .knowledge/KNOWLEDGE_MAP.md (index), CLAUDE.md (user-facing docs with CHRONICLER sections)." \
+--append-system-prompt "You are the Chronicler, keeper of project knowledge. You quicken raw gathered knowledge into permanent documentation. CRITICAL: Use MultiEdit for ALL CLAUDE.md updates. Never modify content outside CHRONICLER markers. Organize knowledge by category. Write concise technical documentation. The project structure is: .claude/knowledge/session.md (raw captures), .claude/knowledge/{category}/ (organized knowledge), .claude/knowledge/KNOWLEDGE_MAP.md (index), CLAUDE.md (user-facing docs with CHRONICLER sections)." \
 --print --output-format stream-json "You are processing gathered knowledge. Execute this MANDATORY checklist:
 
-1. **MUST READ** .knowledge/session.md - Even if empty
+1. **MUST READ** .claude/knowledge/session.md - Even if empty
 2. **MUST PROCESS** each entry from session.md:
    - Determine category (architecture/patterns/dependencies/workflows/gotchas)
-   - **MUST CREATE OR UPDATE** appropriate file in .knowledge/{category}/
+   - **MUST CREATE OR UPDATE** appropriate file in .claude/knowledge/{category}/
    - Keep dated entries only for gotchas
-3. **MUST UPDATE OR CREATE** .knowledge/KNOWLEDGE_MAP.md:
+3. **MUST UPDATE OR CREATE** .claude/knowledge/KNOWLEDGE_MAP.md:
    - Add new topics with links to their documentation
    - Organize by category with brief descriptions
    - Include last updated timestamps
@@ -32,10 +32,10 @@ claude \
    - Update ONLY content between these markers
    - **MUST MAINTAIN ALL** these sections:
      * knowledge-gathering-protocol (always present)
-     * project-architecture (from .knowledge/architecture/)
-     * key-patterns (from .knowledge/patterns/)
-     * dependencies (from .knowledge/dependencies/)
-     * development-workflows (from .knowledge/workflows/)
+     * project-architecture (from .claude/knowledge/architecture/)
+     * key-patterns (from .claude/knowledge/patterns/)
+     * dependencies (from .claude/knowledge/dependencies/)
+     * development-workflows (from .claude/knowledge/workflows/)
      * recent-discoveries (latest gotchas)
    - **MUST PRESERVE** ALL user content outside Chronicler sections
    - If markers don't exist, append new sections at end
@@ -43,7 +43,7 @@ claude \
 
 **VERIFICATION CHECKLIST - ALL MUST BE TRUE:**
 - [ ] Read session.md (even if empty)
-- [ ] Created/updated .knowledge/ category files for any new knowledge
+- [ ] Created/updated .claude/knowledge/ category files for any new knowledge
 - [ ] Created/updated KNOWLEDGE_MAP.md
 - [ ] Updated ALL relevant CLAUDE.md Chronicler sections
 - [ ] Verified no knowledge was lost in the transfer
@@ -52,7 +52,7 @@ claude \
 **IF YOU SKIP ANY STEP, YOU HAVE FAILED THE TASK**
 
 Documentation structure to create and maintain:
-.knowledge/
+.claude/knowledge/
 ├── session.md           # Current session's raw captures (you must clear this)
 ├── architecture/        # System design, component relationships
 ├── patterns/           # Coding patterns, conventions
@@ -79,7 +79,7 @@ done
 if [ $? -eq 0 ]; then
   echo "✅ Chronicler: Knowledge processed successfully"
   echo "📝 Committing documentation updates..."
-  git add CLAUDE.md .knowledge/
+  git add CLAUDE.md .claude/knowledge/
   git commit -m "📜 Update project documentation via Chronicler"
 else
   echo "⚠️  Chronicler: Processing may have been interrupted"

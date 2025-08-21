@@ -3,7 +3,7 @@ After making commits with significant gathered knowledge, **remind the user** to
 ```bash
 ./chronicler-quicken
 ```
-This processes the `.knowledge/session.md` file into organized documentation. The chronicler cannot run automatically due to timeout issues in hooks/agents that crash Claude.
+This processes the `.claude/knowledge/session.md` file into organized documentation. The chronicler cannot run automatically due to timeout issues in hooks/agents that crash Claude.
 
 <!-- BEGIN CHRONICLER: knowledge-gathering-protocol -->
 ## 🧠 Knowledge Gathering Protocol

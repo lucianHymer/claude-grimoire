@@ -19,7 +19,7 @@ function gatherKnowledge(args) {
     const { category, topic, details, files } = args;
     
     // Ensure knowledge directory exists
-    const knowledgeDir = path.join(process.cwd(), '.knowledge');
+    const knowledgeDir = path.join(process.cwd(), '.claude', 'knowledge');
     if (!fs.existsSync(knowledgeDir)) {
         fs.mkdirSync(knowledgeDir, { recursive: true });
     }
@@ -44,7 +44,7 @@ function gatherKnowledge(args) {
     // Atomic append
     fs.appendFileSync(sessionFile, entry);
     
-    return `✓ Gathered to .knowledge/session.md: [${category}] ${topic}`;
+    return `✓ Gathered to .claude/knowledge/session.md: [${category}] ${topic}`;
 }
 
 // Set up stdin reader for JSON-RPC
