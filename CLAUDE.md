@@ -94,6 +94,13 @@ Git hooks can leverage Claude Code directly without API costs:
 - Regular prompt defines the specific task
 - Multi-line prompts work with bash heredocs or quoted strings
 - Enables automated code processing during git operations
+
+### Stream-JSON Progress Monitoring
+Using `--output-format stream-json` with Claude CLI for real-time progress:
+- Parse JSON stream with jq to extract text messages and tool usage
+- Shows real-time progress for long-running operations
+- Must use `set -o pipefail` to preserve Claude's exit status through pipes
+- Solves the silent waiting problem with non-interactive mode
 <!-- END CHRONICLER: key-patterns -->
 
 <!-- BEGIN CHRONICLER: dependencies -->
@@ -109,6 +116,13 @@ Manual documentation system with MCP server support:
 6. **Settings Integration** - Enables MCP server via `settings.local.json`
 
 The system captures knowledge proactively during exploration. Users must manually run chronicler-quicken after commits to organize documentation, avoiding timeout/crash issues from automated approaches.
+
+### jq - JSON Processor
+Required dependency for chronicler-quicken script:
+- Used to parse Claude's stream-json output format
+- Extracts text messages from `.message.content[0].text`
+- Extracts tool names from `.message.content[0].name`
+- Most systems have jq pre-installed
 <!-- END CHRONICLER: dependencies -->
 
 <!-- BEGIN CHRONICLER: development-workflows -->
@@ -156,4 +170,7 @@ Migrated from automated git hooks/agents to manual script due to persistent cras
 
 ### Gather Knowledge Tool Availability (2025-08-21)  
 Claude may forget to use gather_knowledge even with clear CLAUDE.md instructions. The MCP tool might not always be available in sessions. The tool description might need more emphasis on 'use this IMMEDIATELY when you learn something' or 'MUST use when discovering patterns/architecture/workflows'.
+
+### Pipe Exit Status Preservation (2025-08-21)
+When piping Claude's output through a while loop for parsing, the exit status becomes the loop's status (always 0), not Claude's. Must use `set -o pipefail` in bash to preserve the original command's exit status through pipes. Critical for detecting Claude execution success/failure in scripts like chronicler-quicken.
 <!-- END CHRONICLER: recent-discoveries -->
