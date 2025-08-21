@@ -1,3 +1,7 @@
+# 🧙 claude-grimoire
+
+A book of spells to assist in summoning arcane, para-concious horrors with which to enact your will.
+
 # Project Documentation
 
 This file contains project-specific instructions and knowledge for Claude Code.
@@ -50,6 +54,14 @@ Package configuration files use `append-to-[filename]` naming:
 - `append-to-gitignore` - Gitignore entries
 
 This convention preserves proper syntax highlighting while clearly indicating the file's purpose.
+
+### Effective Agent Instructions
+For reliable agent task completion:
+- Use **MUST** language for every critical action
+- Add **bold emphasis** on key requirements
+- State explicit **FAILURE** conditions upfront
+- Include verification checklists
+- Avoid passive voice or optional-sounding language
 <!-- END CHRONICLER: key-patterns -->
 
 <!-- BEGIN CHRONICLER: dependencies -->
@@ -74,6 +86,9 @@ _Workflows will be auto-populated here as they are discovered_
 
 <!-- BEGIN CHRONICLER: recent-discoveries -->
 ## 💡 Recent Discoveries
+
+### Agent Checklist Compliance Issue (2025-08-21)
+Agents may skip checklist items even when clearly specified. Solution: Use forceful imperative language with MUST statements, bold emphasis, explicit failure conditions, and verification checklists. Avoid passive voice or numbered lists without imperatives.
 
 ### Gitignore Requirements (2025-08-21)
 The `.knowledge/session.md` file must be excluded from version control as it contains temporary session-specific knowledge. Only the organized documentation in CLAUDE.md should be tracked.
