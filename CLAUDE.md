@@ -37,13 +37,21 @@ Use gather_knowledge with these parameters:
 ### Incantation-based Organization
 The project uses a modular `incantations/` directory structure where each magical system/tool is self-contained:
 - **claude/** - MCP servers and Claude Code configuration
-  - **servers/** - MCP server implementations
+  - **servers/** - MCP server implementations  
   - **append-to-* files** - Configuration fragments to append during installation
 - **git/** - Git hooks and repository automation
   - **hooks/** - Pre-commit, post-commit, and other git hooks
 - **README.md** - Incantation-specific documentation
 
 This structure enables portable, independently versioned magical systems that can be summoned and installed. Components are organized by tool type (claude/, git/) for cleaner separation of concerns.
+
+### Chronicler Post-commit Hook Design
+Switched from pre-commit to post-commit hook for chronicler documentation processing. Post-commit is better because:
+1. Documentation updates are in separate commits
+2. Never blocks main commits even if chronicler fails
+3. Cleaner separation of concerns
+
+Hook explicitly specifies allowed tools with --tools flag and instructs Claude to create a separate commit for documentation updates.
 <!-- END CHRONICLER: project-architecture -->
 
 <!-- BEGIN CHRONICLER: key-patterns -->
@@ -80,12 +88,12 @@ Git hooks can leverage Claude Code directly without API costs:
 ### Chronicler Documentation System
 Automated documentation system with git hook-based architecture:
 1. **MCP Server** (`chronicler.js`) - Provides `gather_knowledge` tool for capturing insights
-2. **Git Pre-commit Hook** (`pre-commit`) - Replaces agent with direct Claude CLI calls for 100% execution reliability
+2. **Git Post-commit Hook** (`post-commit`) - Direct Claude CLI calls for 100% execution reliability, creates separate commits for documentation
 3. **Session Memory** (`.knowledge/session.md`) - Temporary storage for current session's discoveries
 4. **CLAUDE.md Sections** - Auto-maintained documentation sections
 5. **Settings Integration** - Enables MCP server via `settings.local.json`
 
-The system captures knowledge proactively during exploration and organizes it into permanent documentation during commits. Git hook approach eliminates RPC errors and ensures complete task execution.
+The system captures knowledge proactively during exploration and organizes it into permanent documentation during commits. Post-commit hook approach eliminates RPC errors, ensures complete task execution, and keeps documentation updates separate from main commits.
 <!-- END CHRONICLER: dependencies -->
 
 <!-- BEGIN CHRONICLER: development-workflows -->
@@ -110,15 +118,12 @@ Git hooks from incantations are installed by:
 <!-- BEGIN CHRONICLER: recent-discoveries -->
 ## 💡 Recent Discoveries
 
-### Chronicler Git Hook Architecture (2025-08-21)
-Replaced chronicler-quicken agent with git pre-commit hook that calls Claude CLI directly with --prompt and --append-system-prompt. Eliminates RPC errors and ensures 100% execution on commits. Hook structure: checks for session.md, runs claude with full checklist prompt, stages changes, exits 0 to never block commits.
+### Unicode Emoji CLI Errors (2025-08-21)
+Emojis in git hook prompts and MultiEdit operations cause JSON encoding errors: 'no low surrogate in string'. This Unicode surrogate pair issue affects prompts passed to Claude CLI and content edited via MultiEdit. Claude Code CLI crashes with uncaught node error in non-interactive mode (`claude -p`). Despite crashes, post-commit hook still works because edits complete before the crash and documentation updates succeed. Solution: Remove emojis from git hook prompts and be cautious with emojis in documentation.
 
-### Gather Knowledge Tool Availability (2025-08-21)
+### Post-commit Hook Migration (2025-08-21)
+Switched from pre-commit to post-commit hook for chronicler. Post-commit provides better separation of concerns - documentation updates happen in separate commits and never block the main commit even if chronicler fails.
+
+### Gather Knowledge Tool Availability (2025-08-21)  
 Claude may forget to use gather_knowledge even with clear CLAUDE.md instructions. The MCP tool might not always be available in sessions. The tool description might need more emphasis on 'use this IMMEDIATELY when you learn something' or 'MUST use when discovering patterns/architecture/workflows'.
-
-### Agent Checklist Compliance Issue (2025-08-21)
-Agents may skip checklist items even when clearly specified. Solution: Use forceful imperative language with MUST statements, bold emphasis, explicit failure conditions, and verification checklists. Avoid passive voice or numbered lists without imperatives.
-
-### Gitignore Requirements (2025-08-21)
-The `.knowledge/session.md` file must be excluded from version control as it contains temporary session-specific knowledge. Only the organized documentation in CLAUDE.md should be tracked.
 <!-- END CHRONICLER: recent-discoveries -->

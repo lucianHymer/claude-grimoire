@@ -33,4 +33,6 @@ Include warnings throughout:
 - Ambiguous success criteria
 
 ## Example Implementation
-See `packages/chronicler/agents/chronicler-quicken.md` for a complete example of these patterns in action.
+See `incantations/chronicler/git/hooks/post-commit` for a complete example of these patterns in action.
+
+**Files**: `incantations/chronicler/git/hooks/post-commit`
