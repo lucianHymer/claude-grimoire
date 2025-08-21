@@ -30,19 +30,40 @@ Use gather_knowledge with these parameters:
 <!-- BEGIN CHRONICLER: project-architecture -->
 ## 🏗️ Project Architecture
 
-_Architecture details will be auto-populated here as they are discovered_
+### Package-based Organization
+The project uses a modular `packages/` directory structure where each system/tool is self-contained:
+- **agents/** - Agent markdown files for specialized tasks
+- **servers/** - MCP server implementations
+- **append-to-* files** - Configuration fragments to append during installation
+- **README.md** - Package-specific documentation
+
+This structure enables portable, independently versioned systems that can be easily distributed and installed.
 <!-- END CHRONICLER: project-architecture -->
 
 <!-- BEGIN CHRONICLER: key-patterns -->
 ## 🎯 Key Patterns
 
-_Patterns will be auto-populated here as they are discovered_
+### Append File Naming Convention
+Package configuration files use `append-to-[filename]` naming:
+- `append-to-CLAUDE.md` - Documentation sections to add
+- `append-to-settings.local.json` - Settings configuration
+- `append-to-gitignore` - Gitignore entries
+
+This convention preserves proper syntax highlighting while clearly indicating the file's purpose.
 <!-- END CHRONICLER: key-patterns -->
 
 <!-- BEGIN CHRONICLER: dependencies -->
 ## 📦 Dependencies
 
-_Dependencies will be auto-populated here as they are discovered_
+### Chronicler Documentation System
+Automated documentation system with these components:
+1. **MCP Server** (`chronicler.js`) - Provides `gather_knowledge` tool for capturing insights
+2. **Quicken Agent** (`chronicler-quicken.md`) - Processes raw knowledge into organized documentation
+3. **Session Memory** (`.knowledge/session.md`) - Temporary storage for current session's discoveries
+4. **CLAUDE.md Sections** - Auto-maintained documentation sections
+5. **Settings Integration** - Enables MCP server via `settings.local.json`
+
+The system captures knowledge proactively during exploration and organizes it into permanent documentation during commits.
 <!-- END CHRONICLER: dependencies -->
 
 <!-- BEGIN CHRONICLER: development-workflows -->
@@ -54,5 +75,6 @@ _Workflows will be auto-populated here as they are discovered_
 <!-- BEGIN CHRONICLER: recent-discoveries -->
 ## 💡 Recent Discoveries
 
-_Recent gotchas and discoveries will appear here_
+### Gitignore Requirements (2025-08-21)
+The `.knowledge/session.md` file must be excluded from version control as it contains temporary session-specific knowledge. Only the organized documentation in CLAUDE.md should be tracked.
 <!-- END CHRONICLER: recent-discoveries -->
