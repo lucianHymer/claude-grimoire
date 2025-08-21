@@ -1,39 +1,33 @@
-# Knowledge Map
+# 🗺️ Knowledge Map
 
-This file provides an index to all documented knowledge about the project.
+This index provides quick access to all documented project knowledge.
 
-## Architecture
-- [Chronicler System](./architecture/chronicler-system.md) - Manual script-based documentation system (formerly post-commit hook) *(2025-08-21)*
-- [Incantation Structure](./architecture/incantation-structure.md) - Modular incantations/ directory organization *(2025-08-21)*
-- [Package-based Organization](./architecture/package-organization.md) - Modular packages/ directory structure *(2025-08-21)*
+## 🎯 Patterns
+*Coding patterns, conventions, and best practices*
 
-## Patterns
-- [Append File Naming](./patterns/append-file-naming.md) - Configuration fragment naming convention *(2025-08-21)*
-- [Claude CLI Usage](./patterns/claude-cli-usage.md) - Interactive vs non-interactive mode best practices *(2025-08-21)*
-- [Effective Agent Instructions](./patterns/effective-agent-instructions.md) - How to write agent instructions that get followed *(2025-08-21)*
-- [Git Hook Claude Integration](./patterns/git-hook-claude-integration.md) - Direct Claude CLI usage in git hooks *(2025-08-21)*
-- [Stream-JSON Progress Monitoring](./patterns/stream-json-progress.md) - Using Claude CLI's stream-json output for real-time progress updates *(2025-08-21)*
+- **[Tool Description Patterns](patterns/tool-descriptions.md)** - Guidelines for writing effective MCP tool descriptions, especially for behavioral tools
+  - Last updated: 2025-08-21
 
-## Dependencies
-- [Chronicler System](./dependencies/chronicler-system.md) - Automated documentation system with git hook architecture *(2025-08-21)*
-- [jq - JSON Processor](./dependencies/jq-json-processor.md) - Required for parsing Claude's stream-json output *(2025-08-21)*
+## 🏗️ Architecture
+*System design and component relationships*
 
-## Workflows
-- [Installing Git Hooks](./workflows/installing-git-hooks.md) - Process for installing hooks from incantations *(2025-08-21)*
-- [Installation Workflows](./workflows/installation.md) - Summoning incantations via command-line *(2025-08-21)*
-- [Manual Chronicler](./workflows/manual-chronicler.md) - Current workflow for processing documentation after commits *(2025-08-21)*
-- [Summoning Incantations](./workflows/summoning-incantations.md) - Installing magical systems with summon command *(2025-08-21)*
+*(No entries yet)*
 
-## Configuration
-- [Gitignore Requirements](./config/gitignore-requirements.md) - Version control exclusions needed *(2025-08-21)*
+## 📦 Dependencies
+*External services, libraries, and integrations*
 
-## Conventions
-- [Append File Naming](./conventions/append-file-naming.md) - Package configuration file naming pattern *(2025-08-21)*
-- [Naming Conventions](./conventions/naming.md) - Incantations directory and thematic naming *(2025-08-21)*
+*(No entries yet)*
 
-## Gotchas
-- [2025-08-21: Agent Checklist Compliance](./gotchas/2025-08-21-agent-checklist-compliance.md) - Agents may skip checklist items without strong imperatives
-- [Claude CLI Crashes](./gotchas/claude-cli-crashes.md) - Various crash scenarios including emoji encoding and timeout issues *(2025-08-21)*
-- [Gather Knowledge Availability](./gotchas/gather-knowledge-availability.md) - MCP tool may not always be available *(2025-08-21)*
-- [Pipe Exit Status Preservation](./gotchas/pipe-exit-status.md) - Bash pipes hide original command exit status *(2025-08-21)*
-- [Unicode Emoji CLI Errors](./gotchas/unicode-emoji-cli-errors.md) - JSON encoding issues with emojis in Claude CLI *(2025-08-21)*
+## 🔄 Workflows
+*How to accomplish tasks in this project*
+
+*(No entries yet)*
+
+## ⚠️ Gotchas
+*Surprises, non-obvious behaviors, and things to watch out for*
+
+*(No entries yet)*
+
+---
+
+*Knowledge captured by the Chronicler documentation system*

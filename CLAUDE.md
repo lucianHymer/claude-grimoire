@@ -101,6 +101,16 @@ Using `--output-format stream-json` with Claude CLI for real-time progress:
 - Shows real-time progress for long-running operations
 - Must use `set -o pipefail` to preserve Claude's exit status through pipes
 - Solves the silent waiting problem with non-interactive mode
+
+### Aggressive Behavioral Tool Descriptions
+For MCP tools requiring behavioral triggering (like gather_knowledge):
+- Use **explicitly prescriptive** language with mandatory triggers
+- Include **specific trigger phrases** ("for future reference", "turns out", etc.)
+- Provide **concrete bad/good examples** to clarify usage
+- Apply **aggressive formatting** (⚠️ MANDATORY, ❌ BAD, ✅ GOOD)
+- List **common blind spots** where tool should be used
+
+This unconventional verbose approach is necessary when tools require behavioral conditioning rather than obvious task mapping. The tool description itself becomes part of the behavioral reinforcement.
 <!-- END CHRONICLER: key-patterns -->
 
 <!-- BEGIN CHRONICLER: dependencies -->
