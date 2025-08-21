@@ -71,18 +71,7 @@ rl.on('line', (line) => {
             respond(request.id, {
                 tools: [{
                     name: 'gather_knowledge',
-                    description: `PROACTIVELY capture ANY learned information about the project. Use this tool IMMEDIATELY when you:
-- Understand how any part of the system works
-- Discover project structure, architecture, or design patterns
-- Find dependencies, libraries, frameworks, or external services
-- Learn configuration details or environment variables
-- Encounter surprising behaviors or non-obvious aspects
-- Identify workflows, build processes, or development procedures
-- Discover API endpoints, database schemas, or data flows
-- Find coding conventions, style guides, or project standards
-- Learn about testing approaches, CI/CD, or deployment
-
-This tool builds automatic documentation by gathering ALL discoveries. Use descriptive categories like: architecture, api, database, pattern, dependency, workflow, config, gotcha, convention, testing, security, deployment, etc.`,
+                    description: 'Capture learned information about the project for automatic documentation. Use proactively when discovering architecture, patterns, dependencies, workflows, configurations, or surprising behaviors.',
                     inputSchema: {
                         type: 'object',
                         properties: {
