@@ -1,14 +1,19 @@
 #!/bin/bash
 
-# Chronicler post-commit hook - processes knowledge after each commit
-# Only run if session.md exists and has content
-if [ -f .knowledge/session.md ] && [ -s .knowledge/session.md ]; then
-  echo "📜 Chronicler: Processing session knowledge..."
-  
-  claude -p \
---tools Read,Write,MultiEdit,Glob,Grep,LS,Bash \
---append-system-prompt "You are the Chronicler, keeper of project knowledge. You quicken raw gathered knowledge into permanent documentation. CRITICAL: Use MultiEdit for ALL CLAUDE.md updates. Never modify content outside CHRONICLER markers. Organize knowledge by category. Write concise technical documentation. This is a git post-commit hook - work silently and efficiently. The project structure is: .knowledge/session.md (raw captures), .knowledge/{category}/ (organized knowledge), .knowledge/KNOWLEDGE_MAP.md (index), CLAUDE.md (user-facing docs with CHRONICLER sections)." \
-"You are processing knowledge for a git commit. Execute this MANDATORY checklist:
+# Manual chronicler quickening script
+# Run this after commits to process gathered knowledge into documentation
+
+if [ ! -f .knowledge/session.md ] || [ ! -s .knowledge/session.md ]; then
+  echo "📜 No knowledge to process (session.md is empty or missing)"
+  exit 0
+fi
+
+echo "📜 Chronicler: Processing session knowledge..."
+echo "⚠️  Note: This may take a few minutes for complex documentation updates"
+
+claude \
+--append-system-prompt "You are the Chronicler, keeper of project knowledge. You quicken raw gathered knowledge into permanent documentation. CRITICAL: Use MultiEdit for ALL CLAUDE.md updates. Never modify content outside CHRONICLER markers. Organize knowledge by category. Write concise technical documentation. The project structure is: .knowledge/session.md (raw captures), .knowledge/{category}/ (organized knowledge), .knowledge/KNOWLEDGE_MAP.md (index), CLAUDE.md (user-facing docs with CHRONICLER sections)." \
+--print "You are processing gathered knowledge. Execute this MANDATORY checklist:
 
 1. **MUST READ** .knowledge/session.md - Even if empty
 2. **MUST PROCESS** each entry from session.md:
@@ -53,12 +58,13 @@ Documentation structure to create and maintain:
 ├── gotchas/           # Surprises, non-obvious behaviors
 └── KNOWLEDGE_MAP.md   # Index of all knowledge (auto-maintained by you)
 
-IMPORTANT: After completing all steps, create a new commit with the documentation updates using: git add CLAUDE.md .knowledge/ && git commit -m '📜 Update project documentation via Chronicler'"
-  
-  # Check if claude succeeded
-  if [ $? -eq 0 ]; then
-    echo "✅ Chronicler: Knowledge processed and committed successfully"
-  else
-    echo "⚠️  Chronicler: Failed to process knowledge"
-  fi
+After completing all updates, inform the user that documentation has been updated."
+
+if [ $? -eq 0 ]; then
+  echo "✅ Chronicler: Knowledge processed successfully"
+  echo "📝 Consider committing the documentation updates:"
+  echo "   git add CLAUDE.md .knowledge/"
+  echo "   git commit -m '📜 Update project documentation via Chronicler'"
+else
+  echo "⚠️  Chronicler: Processing may have been interrupted"
 fi

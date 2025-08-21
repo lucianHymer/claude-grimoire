@@ -6,6 +6,13 @@ A book of spells to assist in summoning arcane, para-concious horrors with which
 
 This file contains project-specific instructions and knowledge for Claude Code.
 
+## ⚠️ IMPORTANT: Manual Chronicler Process
+After making commits with significant gathered knowledge, **remind the user** to run:
+```bash
+./chronicler-quicken
+```
+This processes the `.knowledge/session.md` file into organized documentation. The chronicler cannot run automatically due to timeout issues in hooks/agents that crash Claude.
+
 <!-- BEGIN CHRONICLER: knowledge-gathering-protocol -->
 ## 🧠 Knowledge Gathering Protocol
 
