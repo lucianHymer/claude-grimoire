@@ -1,6 +1,20 @@
 # Chronicler System Architecture
 
-## Post-commit Hook Design
+## Manual Script Approach
+The Chronicler now uses a manual script (`./chronicler-quicken`) instead of git hooks or agents due to timeout/crash issues. The script runs in interactive mode without `-p` flag to avoid crashes.
+
+**Key design decisions:**
+- Located in project root for easy access
+- Incantation structure changed from `git/hooks/` to `scripts/` subdirectory
+- Installation copies script to project root
+- CLAUDE.md contains reminder to prompt users to run it after commits
+
+**Files:**
+- `incantations/chronicler/scripts/chronicler-quicken` - Script template
+- `incantations/chronicler/install.sh` - Installation logic
+- `./chronicler-quicken` - Installed script in project root
+
+## Post-commit Hook Design (Deprecated)
 Switched from pre-commit to post-commit hook for chronicler documentation processing. Post-commit is better because:
 1. Documentation updates are in separate commits
 2. Never blocks main commits even if chronicler fails

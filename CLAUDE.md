@@ -46,19 +46,19 @@ The project uses a modular `incantations/` directory structure where each magica
 - **claude/** - MCP servers and Claude Code configuration
   - **servers/** - MCP server implementations  
   - **append-to-* files** - Configuration fragments to append during installation
+- **scripts/** - Standalone scripts (e.g., chronicler-quicken)
 - **git/** - Git hooks and repository automation
   - **hooks/** - Pre-commit, post-commit, and other git hooks
 - **README.md** - Incantation-specific documentation
 
-This structure enables portable, independently versioned magical systems that can be summoned and installed. Components are organized by tool type (claude/, git/) for cleaner separation of concerns.
+This structure enables portable, independently versioned magical systems that can be summoned and installed. Components are organized by tool type (claude/, git/, scripts/) for cleaner separation of concerns.
 
-### Chronicler Post-commit Hook Design
-Switched from pre-commit to post-commit hook for chronicler documentation processing. Post-commit is better because:
-1. Documentation updates are in separate commits
-2. Never blocks main commits even if chronicler fails
-3. Cleaner separation of concerns
-
-Hook explicitly specifies allowed tools with --tools flag and instructs Claude to create a separate commit for documentation updates.
+### Chronicler Manual Script Architecture
+The Chronicler now uses a manual script approach (`./chronicler-quicken`) instead of git hooks or agents due to timeout/crash issues:
+- Script located in project root for easy access
+- Runs in interactive mode without `-p` flag to avoid crashes
+- Installation copies script from `incantations/chronicler/scripts/` to project root
+- Users must run manually after commits with significant gathered knowledge
 <!-- END CHRONICLER: project-architecture -->
 
 <!-- BEGIN CHRONICLER: key-patterns -->
@@ -80,6 +80,13 @@ For reliable agent task completion:
 - Include verification checklists
 - Avoid passive voice or optional-sounding language
 
+### Claude CLI Usage Patterns
+**Interactive vs Non-Interactive Mode:**
+- Use interactive mode (no `-p` flag) for long-running or complex tasks to avoid timeouts
+- Non-interactive mode (`-p` or `--print`) only for quick, simple operations
+- Interactive mode more stable for MultiEdit operations with emojis
+- Complex documentation updates should use interactive mode
+
 ### Git Hook Claude CLI Integration
 Git hooks can leverage Claude Code directly without API costs:
 - Use `claude --prompt "..." --append-system-prompt "..."` in hooks
@@ -93,14 +100,15 @@ Git hooks can leverage Claude Code directly without API costs:
 ## 📦 Dependencies
 
 ### Chronicler Documentation System
-Automated documentation system with git hook-based architecture:
+Manual documentation system with MCP server support:
 1. **MCP Server** (`chronicler.js`) - Provides `gather_knowledge` tool for capturing insights
-2. **Git Post-commit Hook** (`post-commit`) - Direct Claude CLI calls for 100% execution reliability, creates separate commits for documentation
+2. **Manual Script** (`./chronicler-quicken`) - Processes session.md into organized documentation
 3. **Session Memory** (`.knowledge/session.md`) - Temporary storage for current session's discoveries
-4. **CLAUDE.md Sections** - Auto-maintained documentation sections
-5. **Settings Integration** - Enables MCP server via `settings.local.json`
+4. **Knowledge Structure** - Organized by category in `.knowledge/` directory
+5. **CLAUDE.md Sections** - Auto-maintained documentation sections
+6. **Settings Integration** - Enables MCP server via `settings.local.json`
 
-The system captures knowledge proactively during exploration and organizes it into permanent documentation during commits. Post-commit hook approach eliminates RPC errors, ensures complete task execution, and keeps documentation updates separate from main commits.
+The system captures knowledge proactively during exploration. Users must manually run chronicler-quicken after commits to organize documentation, avoiding timeout/crash issues from automated approaches.
 <!-- END CHRONICLER: dependencies -->
 
 <!-- BEGIN CHRONICLER: development-workflows -->
@@ -114,6 +122,15 @@ Install magical systems using the `summon [incantation-name]` command:
 
 This thematic workflow makes the development experience more engaging while maintaining clear functionality.
 
+### Manual Chronicler Workflow
+Current chronicler workflow to avoid timeout/crash issues:
+1. **Use gather_knowledge** during Claude sessions to capture discoveries
+2. **Make commits as normal** (no automatic processing)
+3. **Run `./chronicler-quicken` manually** after commits to process session.md
+4. **Commit documentation updates** separately
+
+This manual approach maintains documentation quality while avoiding Claude crashes.
+
 ### Installing Git Hooks from Incantations
 Git hooks from incantations are installed by:
 1. Copying hook files from `incantations/{name}/git/hooks/` to `.git/hooks/`
@@ -125,11 +142,17 @@ Git hooks from incantations are installed by:
 <!-- BEGIN CHRONICLER: recent-discoveries -->
 ## 💡 Recent Discoveries
 
-### Unicode Emoji CLI Errors (2025-08-21)
-Emojis in git hook prompts and MultiEdit operations cause JSON encoding errors: 'no low surrogate in string'. This Unicode surrogate pair issue affects prompts passed to Claude CLI and content edited via MultiEdit. Claude Code CLI crashes with uncaught node error in non-interactive mode (`claude -p`). Despite crashes, post-commit hook still works because edits complete before the crash and documentation updates succeed. Solution: Remove emojis from git hook prompts and be cautious with emojis in documentation.
+### Claude CLI Crash Issues (2025-08-21)
+**Multiple failure modes discovered:**
+1. **Emoji encoding crashes** - Unicode surrogate pair issues in non-interactive mode with emojis
+2. **Timeout crashes** - Operations exceeding 120 seconds crash Claude in both modes
+3. **Git hook mode failures** - `claude -p` particularly susceptible to both issues
+4. **Agent mode failures** - Complex documentation updates trigger timeouts
 
-### Post-commit Hook Migration (2025-08-21)
-Switched from pre-commit to post-commit hook for chronicler. Post-commit provides better separation of concerns - documentation updates happen in separate commits and never block the main commit even if chronicler fails.
+Despite crashes, operations often complete before the error. Solution: Use manual chronicler-quicken script.
+
+### Manual Chronicler Migration (2025-08-21)
+Migrated from automated git hooks/agents to manual script due to persistent crash issues. The `./chronicler-quicken` script must be run manually after commits. This approach avoids timeouts while maintaining documentation quality.
 
 ### Gather Knowledge Tool Availability (2025-08-21)  
 Claude may forget to use gather_knowledge even with clear CLAUDE.md instructions. The MCP tool might not always be available in sessions. The tool description might need more emphasis on 'use this IMMEDIATELY when you learn something' or 'MUST use when discovering patterns/architecture/workflows'.
