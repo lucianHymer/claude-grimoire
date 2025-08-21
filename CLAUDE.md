@@ -11,7 +11,7 @@ After making commits with significant gathered knowledge, **remind the user** to
 ```bash
 ./chronicler-quicken
 ```
-This processes the `.knowledge/session.md` file into organized documentation. The chronicler cannot run automatically due to timeout issues in hooks/agents that crash Claude.
+This processes the `.claude/knowledge/session.md` file into organized documentation. The chronicler cannot run automatically due to timeout issues in hooks/agents that crash Claude.
 
 <!-- BEGIN CHRONICLER: knowledge-gathering-protocol -->
 ## 🧠 Knowledge Gathering Protocol
@@ -120,8 +120,8 @@ This unconventional verbose approach is necessary when tools require behavioral 
 Manual documentation system with MCP server support:
 1. **MCP Server** (`chronicler.js`) - Provides `gather_knowledge` tool for capturing insights
 2. **Manual Script** (`./chronicler-quicken`) - Processes session.md into organized documentation
-3. **Session Memory** (`.knowledge/session.md`) - Temporary storage for current session's discoveries
-4. **Knowledge Structure** - Organized by category in `.knowledge/` directory
+3. **Session Memory** (`.claude/knowledge/session.md`) - Temporary storage for current session's discoveries
+4. **Knowledge Structure** - Organized by category in `.claude/knowledge/` directory
 5. **CLAUDE.md Sections** - Auto-maintained documentation sections
 6. **Settings Integration** - Enables MCP server via `settings.local.json`
 
@@ -183,4 +183,7 @@ Claude may forget to use gather_knowledge even with clear CLAUDE.md instructions
 
 ### Pipe Exit Status Preservation (2025-08-21)
 When piping Claude's output through a while loop for parsing, the exit status becomes the loop's status (always 0), not Claude's. Must use `set -o pipefail` in bash to preserve the original command's exit status through pipes. Critical for detecting Claude execution success/failure in scripts like chronicler-quicken.
+
+### LS Tool Hidden Directory Bug (2025-08-21)
+The Claude Code LS tool cannot directly list hidden directories (starting with `.`). However, it works fine with nested paths. Migrated from `.knowledge/` to `.claude/knowledge/` structure to work around this bug while maintaining hidden directory benefits. This groups all Claude-related files together and fixes tool compatibility.
 <!-- END CHRONICLER: recent-discoveries -->
