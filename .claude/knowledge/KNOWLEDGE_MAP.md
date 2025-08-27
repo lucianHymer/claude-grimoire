@@ -17,6 +17,8 @@ This index provides quick access to all documented project knowledge.
   - Last updated: 2025-08-21
 - **[Tool Description Patterns](patterns/tool-descriptions.md)** - Guidelines for writing effective MCP tool descriptions
   - Last updated: 2025-08-21
+- **[Git Union Merge](patterns/git-union-merge.md)** - Union merge strategy for session files
+  - Last updated: 2025-08-27
 
 ## 🏗️ Architecture
 *System design and component relationships*
@@ -27,6 +29,8 @@ This index provides quick access to all documented project knowledge.
   - Last updated: 2025-08-21
 - **[Package Organization](architecture/package-organization.md)** - Overall project structure
   - Last updated: 2025-08-21
+- **[Claude File Linking](architecture/claude-file-linking.md)** - File import depth and @ reference system
+  - Last updated: 2025-08-27
 
 ## 📦 Dependencies
 *External services, libraries, and integrations*
@@ -35,6 +39,12 @@ This index provides quick access to all documented project knowledge.
   - Last updated: 2025-08-21
 - **[jq JSON Processor](dependencies/jq-json-processor.md)** - JSON parsing for stream output
   - Last updated: 2025-08-21
+
+## ⚙️ Configuration
+*Project configuration and settings*
+
+- **[Session Tracking](config/session-tracking.md)** - Session.md git tracking configuration
+  - Last updated: 2025-08-27
 
 ## 🔄 Workflows
 *How to accomplish tasks in this project*

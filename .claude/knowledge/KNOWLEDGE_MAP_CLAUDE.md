@@ -11,6 +11,7 @@ This index uses @ references for Claude Code to automatically load linked files.
 @patterns/git-hook-claude-integration.md
 @patterns/stream-json-progress.md
 @patterns/tool-descriptions.md
+@patterns/git-union-merge.md
 
 ## 🏗️ Architecture
 *System design and component relationships*
@@ -18,12 +19,18 @@ This index uses @ references for Claude Code to automatically load linked files.
 @architecture/chronicler-system.md
 @architecture/incantation-structure.md
 @architecture/package-organization.md
+@architecture/claude-file-linking.md
 
 ## 📦 Dependencies
 *External services, libraries, and integrations*
 
 @dependencies/chronicler-system.md
 @dependencies/jq-json-processor.md
+
+## ⚙️ Configuration
+*Project configuration and settings*
+
+@config/session-tracking.md
 
 ## 🔄 Workflows
 *How to accomplish tasks in this project*
