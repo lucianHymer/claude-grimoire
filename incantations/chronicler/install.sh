@@ -16,5 +16,18 @@ fi
 cp incantations/chronicler/scripts/chronicler-quicken ./chronicler-quicken
 chmod +x ./chronicler-quicken
 
+# Configure git merge strategy for session files
+if [ -f incantations/chronicler/claude/knowledge/append-to-gitattributes ]; then
+    # Create .gitattributes if it doesn't exist
+    touch .gitattributes
+    
+    # Check if the merge rules are already present
+    if ! grep -q "\.claude/knowledge/session\.md merge=union" .gitattributes; then
+        echo "" >> .gitattributes
+        cat incantations/chronicler/claude/knowledge/append-to-gitattributes >> .gitattributes
+        echo "✅ Configured git merge strategy for session files"
+    fi
+fi
+
 echo "✅ Chronicler installed!"
 echo "📝 Run ./chronicler-quicken after commits to process gathered knowledge"

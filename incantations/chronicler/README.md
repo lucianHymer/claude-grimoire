@@ -20,6 +20,7 @@ Processes raw gathered knowledge and updates CLAUDE.md with organized documentat
 ### Configuration
 - `claude/append-to-CLAUDE.md` - Documentation sections and reminder to add to CLAUDE.md
 - `claude/append-to-settings.local.json` - Settings to enable the chronicler MCP server
+- `claude/knowledge/append-to-gitattributes` - Git merge strategy to prevent conflicts in session.md files
 
 ## Why Manual Execution?
 
@@ -52,3 +53,7 @@ This will:
 - Claude will remind you to run `./chronicler-quicken` when appropriate
 - The chronicler may take several minutes for complex documentation updates
 - All gathered knowledge is preserved in `.knowledge/session.md` until processed
+
+## Merge Conflict Prevention
+
+Chronicler includes a gitattributes configuration that prevents merge conflicts in session.md files. When multiple team members gather knowledge simultaneously, git will automatically merge their discoveries using the `union` merge strategy instead of creating conflicts. This ensures all gathered knowledge is preserved and combined during merges.
