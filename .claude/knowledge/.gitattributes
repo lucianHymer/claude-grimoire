@@ -1,2 +1,0 @@
-# Always union merge session files to avoid conflicts
-session.md merge=union
